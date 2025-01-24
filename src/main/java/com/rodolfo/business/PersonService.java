@@ -8,6 +8,7 @@ import com.rodolfo.business.converter.PersonConverter;
 import com.rodolfo.business.dto.PersonDTO;
 import com.rodolfo.infrastructure.entity.Person;
 import com.rodolfo.infrastructure.exceptions.ConflictExecption;
+import com.rodolfo.infrastructure.exceptions.ResourceNotFoundException;
 import com.rodolfo.infrastructure.repository.PersonRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class PersonService {
 		try {
 			boolean exists = checkExistingEmail(email);
 			if (exists) {
-				throw new ConflictExecption("Email" + email + "alrey registered");
+				throw new ConflictExecption("Email" + email + ", already registered");
 			}
 		} catch (ConflictExecption e) {
 			throw new ConflictExecption("Email already registered", e.getCause());
@@ -48,6 +49,14 @@ public class PersonService {
 		return personRepository.existsByEmail(email);
 	}
 	
+	public Person searchPersonByEmail(String email) {
+		return personRepository.findByEmail(email)
+				.orElseThrow(() -> new ResourceNotFoundException(("Email" + email + " not found")));
+	}
+
+	public void deletePersonByEmail(String email) {
+		personRepository.deleteByEmail(email);
+	}
 	
 	
 
