@@ -33,24 +33,17 @@ public class JwtUtil {
                 .getBody();
     }
 
+    public String extrairEmailToken(String token) {
+        return extractClaims(token).getSubject();
+    }
+
+
     public boolean isTokenExpired(String token) {
         return extractClaims(token).getExpiration().before(new Date());
     }
 
     public boolean validateToken(String token, String username) {
-        final String extractedUsername = extractEmailByToken(token);
+        final String extractedUsername = extrairEmailToken(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
-    
-    public String extractEmailByToken(String token) {
-    	return extractClaims(token).getSubject();
-    }
-    
-    
-    
-    
-    
-    
-    
-    
 }
