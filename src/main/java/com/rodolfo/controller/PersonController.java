@@ -8,14 +8,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rodolfo.business.PersonService;
+import com.rodolfo.business.dto.CellphoneDTO;
 import com.rodolfo.business.dto.PersonDTO;
-import com.rodolfo.infrastructure.entity.Person;
 import com.rodolfo.infrastructure.security.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -44,7 +46,7 @@ public class PersonController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Person> searchPersonByEmail(@RequestParam("email") String email) {
+	public ResponseEntity<PersonDTO> searchPersonByEmail(@RequestParam("email") String email) {
 		return ResponseEntity.ok(personService.searchPersonByEmail(email));
 
 	}
@@ -55,8 +57,15 @@ public class PersonController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@PutMapping
+	public ResponseEntity<PersonDTO> updatePerson(@RequestBody PersonDTO personDTO, @RequestHeader("Authorization") String token){
+		return ResponseEntity.ok(personService.updatePerson(token, personDTO));
+	}
 	
-	
+	@PutMapping("/cellphone")
+	public ResponseEntity<CellphoneDTO> updateCellphone(@RequestBody CellphoneDTO cellphoneDTO, @RequestParam("id") Long id){
+		return ResponseEntity.ok(personService.cellphoneUpdate(id, cellphoneDTO));
+	}
 	
 
 }
