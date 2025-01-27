@@ -13,7 +13,6 @@ import lombok.Setter;
 @Builder
 public class CellphoneDTO {
 	
-	private Long id;
 	private String areaCode;
 	private String number;
 
