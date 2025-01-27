@@ -40,6 +40,7 @@ public class PersonConverter {
 
 	public CellphoneDTO cellphoneEntityToCellphoneDTO(Cellphone cellphone) {
 		return CellphoneDTO.builder()
+				.id(cellphone.getId())
 				.areaCode(cellphone.getAreaCode())
 				.number(cellphone.getNumber())
 				.build();
@@ -61,9 +62,13 @@ public class PersonConverter {
 				.build();
 	}
 	
-	
-	
-	
+	public Cellphone cellphoneUpdate(CellphoneDTO cellphoneDTO, Cellphone cellphone) {
+		return Cellphone.builder()
+				.id(cellphone.getId())
+				.areaCode(cellphoneDTO.getAreaCode() != null ? cellphoneDTO.getAreaCode() : cellphone.getAreaCode())
+				.number(cellphoneDTO.getNumber() != null ? cellphoneDTO.getNumber() : cellphone.getNumber())
+				.build();
+	}
 	
 	
 	
